@@ -1,0 +1,1 @@
+<p class="mt-1 text-sm/8 text-gray-500 font-semibold italic">* {{ $slot }}</p>

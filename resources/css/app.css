@@ -1,12 +1,80 @@
-@import 'tailwindcss';
+@import "tailwindcss";
+@import "flowbite/src/themes/default";
+
+@plugin "flowbite/plugin";
 
 @source '../../vendor/laravel/framework/src/Illuminate/Pagination/resources/views/*.blade.php';
 @source '../../storage/framework/views/*.php';
 @source "../**/*.blade.php";
 @source "../**/*.js";
 @source "../**/*.vue";
+@source "../../node_modules/flowbite";
 
 @theme {
-    --font-sans: 'Instrument Sans', ui-sans-serif, system-ui, sans-serif, 'Apple Color Emoji', 'Segoe UI Emoji',
-        'Segoe UI Symbol', 'Noto Color Emoji';
+    --font-heading: "Poppins", sans-serif;
+    --font-body: "Open Sans", sans-serif;
+    --color-gold: #d1b312;
+    --color-background: #f8f8f8;
+    --color-main-text: #696969;
+}
+
+/* Global Styles */
+h1,
+h2,
+h3,
+h4,
+h5,
+h6,
+label,
+legend,
+a {
+    @apply font-heading;
+}
+
+p,
+span {
+    @apply font-body;
+}
+
+/* My Styles */
+
+/* Vanilla CSS for flip card */
+.card {
+    perspective: 800px;
+}
+
+.card__content {
+    transform-style: preserve-3d;
+}
+
+.card:hover .card__content {
+    transform: rotateY(0.5turn);
+}
+
+.card__front,
+.card__back {
+    backface-visibility: hidden;
+}
+.card__back {
+    transform: rotateY(0.5turn);
+}
+
+/* Certificates */
+.certificate-placeholder {
+    width: 256px;
+    height: 352px;
+    background-color: #eee; /* Light gray background */
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    border: 1px dashed #ccc; /* Dashed border */
+    color: #999; /* Light gray text */
+    font-size: 1.2rem;
+}
+
+.fixed-nav {
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    z-index: 15;
 }
