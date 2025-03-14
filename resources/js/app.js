@@ -74,4 +74,24 @@ document.addEventListener("DOMContentLoaded", function () {
 
     window.addEventListener("scroll", updateActiveLink);
     updateActiveLink(); // Call on load in case user refreshes in the middle of page
+
+    // COMPLETE PLUGINS AND TOOLBAR
+    // tinymce.init({
+    //     selector: 'textarea',
+    //     plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
+    //     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
+    //   });
+
+    tinymce.init({
+        selector: "textarea#description",
+        menubar: false,
+        branding: false,
+        statusbar: false,
+        plugins:
+            "advlist autolink lists link image charmap print preview anchor",
+        toolbar:
+            "undo redo | blocks | bold italic underline | \
+              alignleft aligncenter alignright alignjustify | \
+              bullist numlist outdent indent",
+    });
 });

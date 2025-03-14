@@ -3,7 +3,7 @@
     Create New Product
   </x-slot:heading>
 
-  <x-forms.form method="POST" action="/admin/products">
+  <x-forms.form method="POST" action="/admin/products" enctype="multipart/form-data">
     <div class="col-span-full">
       <x-forms.select label="Category" name="category">
         <option selected disabled>Pilih</option>
@@ -13,7 +13,7 @@
       </x-forms.select>
     </div>
     <div class="col-span-full">
-      <x-forms.select label="Type" name="type">
+      <x-forms.select label="Category Type" name="category_type">
         <option selected disabled>Pilih</option>
         <option>Cables</option>
         <option>Enamelled Wires</option>
@@ -47,7 +47,7 @@
         <div class="flex items-center gap-3">
           <div class="flex h-6 shrink-0 items-center">
             <div class="group grid size-4 grid-cols-1">
-              <input id="cert-1" aria-describedby="cert-1-description" name="cert-1" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
+              <input id="cert-1" aria-describedby="cert-1-description" name="certifications[]" value="cert-1" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
               <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
                 <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -63,7 +63,7 @@
         <div class="flex items-center gap-3">
           <div class="flex h-6 shrink-0 items-center">
             <div class="group grid size-4 grid-cols-1">
-              <input id="cert-2" aria-describedby="cert-2-description" name="cert-2" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
+              <input id="cert-2" aria-describedby="cert-2-description" name="certifications[]" value="cert-2" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
               <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
                 <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -79,7 +79,7 @@
         <div class="flex items-center gap-3">
           <div class="flex h-6 shrink-0 items-center">
             <div class="group grid size-4 grid-cols-1">
-              <input id="cert-3" aria-describedby="cert-3-description" name="cert-3" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
+              <input id="cert-3" aria-describedby="cert-3-description" name="certifications[]" value="cert-3" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
               <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
                 <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -95,7 +95,7 @@
         <div class="flex items-center gap-3">
           <div class="flex h-6 shrink-0 items-center">
             <div class="group grid size-4 grid-cols-1">
-              <input id="cert-4" aria-describedby="cert-4-description" name="cert-4" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
+              <input id="cert-4" aria-describedby="cert-4-description" name="certifications[]" value="cert-4" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
               <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
                 <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -111,7 +111,7 @@
         <div class="flex items-center gap-3">
           <div class="flex h-6 shrink-0 items-center">
             <div class="group grid size-4 grid-cols-1">
-              <input id="cert-5" aria-describedby="cert-5-description" name="cert-5" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
+              <input id="cert-5" aria-describedby="cert-5-description" name="certifications[]" value="cert-5" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
               <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
                 <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
                 <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
@@ -161,8 +161,8 @@
       <x-forms.fieldset>
         RoHS Compliance
         <div class="mt-2 flex gap-x-6">
-          <x-forms.radio label="Yes" id="yes" name="rohs" />
-          <x-forms.radio label="No" id="no" name="rohs" />
+          <x-forms.radio label="Yes" id="yes" name="rohs" value="Yes" />
+          <x-forms.radio label="No" id="no" name="rohs" value="No"/>
         </div>
       </x-forms.fieldset>
     </div>
@@ -175,7 +175,12 @@
     <x-forms.divider />
     <h2 class="mt-2 text-pretty text-4xl font-semibold tracking-tight text-gray-900">Details</h2>
     <div class="col-span-full">
-      
+      <x-forms.textarea label="Product Description" name="description" id="description"/>
     </div>
+    <div class="col-span-full">
+      <x-forms.input label="Upload Data Sheet" name="data_sheet" type="file" />
+    </div>
+    <x-forms.divider />
+    <x-forms.button>Publish</x-forms.button>
   </x-forms.form>
 </x-admin.layout>
