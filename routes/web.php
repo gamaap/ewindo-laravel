@@ -1,12 +1,19 @@
 <?php
 
+
+use Illuminate\Support\Arr;
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\PressController;
 use App\Http\Controllers\CareerController;
 use App\Http\Controllers\ContactController;
-use App\Http\Controllers\NewsroomController;
 use App\Http\Controllers\ProductController;
-use App\Http\Controllers\RegisteredAdminController;
 use App\Http\Controllers\SessionController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\NewsroomController;
+use App\Http\Controllers\RegisteredAdminController;
+
+
+
+
 
 // user section
 Route::get('/', function () {
@@ -18,7 +25,9 @@ Route::get('/company', function () {
 });
 
 Route::get('/newsroom', [NewsroomController::class, 'index']);
-Route::get('/newsroom/{slug}', [NewsroomController::class, 'show']);
+Route::get('/newsroom/{category:slug}', [NewsroomController::class, 'filter']);
+Route::get('/categories/{newroom:slug}', [NewsroomController::class, 'show']);
+Route::get('/newsroom/{newroom:slug}', [NewsroomController::class, 'show']);
 
 Route::get('/contact', [ContactController::class, 'index']);
 Route::post('/contact', [ContactController::class, 'store']);
@@ -48,5 +57,8 @@ Route::prefix('admin')->middleware('auth')->group(function() {
     Route::get('/products', [ProductController::class, 'index']);
     Route::get('/products/create', [ProductController::class, 'create']);
     Route::get('/products/{slug}', [ProductController::class, 'show']);
-    Route::post('/products', [ProductController::class, 'store']);
+    
+    Route::get('/press', [PressController::class, 'index']);
+    Route::get('/press/create', [PressController::class, 'create']);
+    Route::get('/press/{slug}', [PressController::class, 'show']);
 });
