@@ -7,12 +7,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
-class Category extends Model
+class NewsroomCategory extends Model
 {
-    /** @use HasFactory<\Database\Factories\CategoryFactory> */
+    /** @use HasFactory<\Database\Factories\NewsroomCategoryFactory> */
     use HasFactory;
     public function newsrooms(): HasMany
     {
-        return $this->hasMany(Newsroom::class);
+        return $this->hasMany(Newsroom::class,'category_id');
     }
 }

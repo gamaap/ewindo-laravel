@@ -58,7 +58,11 @@ Route::prefix('admin')->middleware('auth')->group(function() {
     Route::get('/products/create', [ProductController::class, 'create']);
     Route::get('/products/{slug}', [ProductController::class, 'show']);
     
-    Route::get('/press', [PressController::class, 'index']);
-    Route::get('/press/create', [PressController::class, 'create']);
-    Route::get('/press/{slug}', [PressController::class, 'show']);
+    Route::get('/newsroom/checkSlug', [NewsroomController::class, 'checkSlug']);
+    Route::get('/newsroom', [NewsroomController::class, 'index']);
+    Route::get('/newsroom/create', [NewsroomController::class, 'create']);
+    Route::post('/newsroom', [NewsroomController::class, 'store']);
+    Route::get('/newsroom/{slug}', [NewsroomController::class, 'show']);
+    Route::delete('/newsroom/{newsroom:slug}', [NewsroomController::class, 'destroy'])->name('newsroom.destroy');
+
 });
