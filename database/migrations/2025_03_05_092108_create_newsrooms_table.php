@@ -18,7 +18,7 @@ return new class extends Migration
                 table: 'users', indexName: 'newsrooms_user_id'
             );
             $table->foreignId('category_id')->constrained(
-                table: 'categories', indexName: 'newsrooms_category_id'
+                table: 'newsroom_categories', indexName: 'newsrooms_category_id'
             );
             $table->string('slug')->unique();
             $table->text('body');

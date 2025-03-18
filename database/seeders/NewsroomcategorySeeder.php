@@ -2,38 +2,39 @@
 
 namespace Database\Seeders;
 
-use App\Models\Category;
+
 use Illuminate\Database\Seeder;
+use App\Models\NewsroomCategory;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 
-class CategorySeeder extends Seeder
+class NewsroomcategorySeeder extends Seeder
 {
     /**
      * Run the database seeds.
      */
     public function run(): void
     {
-        Category::create([
+        NewsroomCategory::create([
             'name' => 'Exhibition',
             'slug' => 'Exhibition-1'
         ]);
-        Category::create([
+        NewsroomCategory::create([
             'name' => 'Gathering',
             'slug' => 'Gathering-2'
         ]);
-        Category::create([
+        NewsroomCategory::create([
             'name' => 'Training',
             'slug' => 'Training-3'
         ]);
-        Category::create([
+        NewsroomCategory::create([
             'name' => 'Celebration',
             'slug' => 'Celebration-4'
         ]);
-        Category::create([
+        NewsroomCategory::create([
             'name' => 'Vacation',
             'slug' => 'Vacation-5'
         ]);
-        Category::create([
+        NewsroomCategory::create([
             'name' => 'Others',
             'slug' => 'Others-6'
         ]);

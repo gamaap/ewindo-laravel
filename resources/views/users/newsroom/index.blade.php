@@ -27,48 +27,47 @@
 
     <x-users.panel>
         {{-- {{ dd($news) }} --}}
-        
+
         <div class="bg-white py-24 sm:py-16">
             <div class="mx-auto max-w-7xl px-6 lg:px-8">
                 <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-4 mb-8 mx-64">
-                   
+
                     @foreach ($categories as $category)
-                    <a href="/newsroom/{{ $category->slug }}" class="category-button bg-gray-200 text-center py-4 px-13 rounded shadow hover:bg-gray-300 hover:text-yellow-500 focus:text-yellow-500 transitio">
-                    <button
-                        class="n">
-                        {{ $category->name }}
-                    </button></a>
+                        <a href="/newsroom/{{ $category->slug }}"
+                            class="category-button bg-gray-200 text-center py-4 px-13 rounded shadow hover:bg-gray-300 hover:text-yellow-500 focus:text-yellow-500 transitio">
+                            <button class="n">
+                                {{ $category->name }}
+                            </button></a>
                     @endforeach
-                    
+
                 </div>
                 <div
- 
-                class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+                    class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                     {{-- @for ($i = 0; $i < 9; $i++) --}}
-                    @foreach ($news as $new)
+                    @foreach ($articles as $article)
                         <div class="border border-gray-300 rounded-2xl p-4">
                             <article class="flex max-w-xl flex-col items-start justify-between">
                                 <img src="{{ asset('storage/images/newsroom/google-hq.png') }}" alt="Article Image"
                                     class="w-full h-48 rounded-lg mb-4" />
                                 <div class="flex items-center gap-x-4 text-xs">
-                                    <p>{{ $new->created_at->diffForHumans() }}</p>
+                                    <p>{{ $article->created_at->diffForHumans() }}</p>
                                     <a href="#"
-                                        class="relative z-10 rounded-full bg-yellow-500 px-3 py-1.5 font-medium text-white hover:bg-yellow-400">{{ $new->category->name }}</a>
+                                        class="relative z-10 rounded-full bg-yellow-500 px-3 py-1.5 font-medium text-white hover:bg-yellow-400">{{ $article->category->name }}</a>
                                 </div>
                                 <div class="group relative">
                                     <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
-                                        <a href="/categories/{{ $new->slug }}">
+                                        <a href="/categories/{{ $article->slug }}">
                                             <span class="absolute inset-0"></span>
-                                            {{ $new->title }}
+                                            {{ $article->title }}
                                         </a>
                                     </h3>
                                     <p class="mt-5 line-clamp-3 text-sm/6 text-gray-600">
-                                        {{ $new->body }}
+                                        {{ $article->body }}
                                     </p>
                                     {{-- <a href="javascript:;"
                                         class="cursor-pointer text-md text-indigo-600 font-semibold">Read
                                         more</a> --}}
-                                    <a href="/newsroom/{{ $new['id'] }}"
+                                    <a href="/newsroom/{{ $article['id'] }}"
                                         class="hover:underline cursor-pointer text-md text-indigo-600 font-semibold">Read
                                         more &raquo;</a>
                                 </div>
@@ -82,7 +81,7 @@
                                                 IT
                                             </a>
                                         </p>
-                                        <p class="text-gray-600">{{ $new->user->name }}</p>
+                                        <p class="text-gray-600">{{ $article->user->name }}</p>
                                     </div>
                                 </div>
                             </article>
@@ -156,7 +155,7 @@
             </div> --}}
             {{-- {{ $news->links() }} --}}
         </div>
-        
+
         </x-users-panel>
 
 </x-users.layout>
