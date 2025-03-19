@@ -47,8 +47,13 @@
                     @foreach ($articles as $article)
                         <div class="border border-gray-300 rounded-2xl p-4">
                             <article class="flex max-w-xl flex-col items-start justify-between">
-                                <img src="{{ asset('storage/images/newsroom/google-hq.png') }}" alt="Article Image"
-                                    class="w-full h-48 rounded-lg mb-4" />
+                                @if ($article->image)
+                                    <img src="{{ asset('storage/' . $article->image) }}" alt="Article Image"
+                                        class="w-full h-48 rounded-lg mb-4" />
+                                @else
+                                    <img src="{{ asset('storage/images/newsroom/google-hq.png') }}" alt="Article Image"
+                                        class="w-full h-48 rounded-lg mb-4" />
+                                @endif
                                 <div class="flex items-center gap-x-4 text-xs">
                                     <p>{{ $article->created_at->diffForHumans() }}</p>
                                     <a href="#"

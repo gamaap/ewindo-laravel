@@ -16,7 +16,7 @@ class Newsroom extends Model
 {
     use HasFactory, Sluggable;
     protected $table = 'newsrooms';
-    protected $fillable = ['title' , 'user' , 'slug' , 'body', 'user_id', 'category_id'];
+    protected $fillable = ['title' , 'user' , 'slug' , 'body', 'user_id', 'category_id', 'image'];
 
     public function user(): BelongsTo
     {

@@ -78,3 +78,7 @@ span {
     backdrop-filter: blur(10px);
     z-index: 15;
 }
+
+.invalid-feedback {
+    color: red;
+}

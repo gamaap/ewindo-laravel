@@ -62,7 +62,10 @@ Route::prefix('admin')->middleware('auth')->group(function() {
     Route::get('/newsroom', [NewsroomController::class, 'index']);
     Route::get('/newsroom/create', [NewsroomController::class, 'create']);
     Route::post('/newsroom', [NewsroomController::class, 'store']);
-    Route::get('/newsroom/{slug}', [NewsroomController::class, 'show']);
+    Route::get('admin/newsroom/{slug}', [NewsroomController::class, 'show']);
+    Route::get('/newsroom/{newroom:slug}', [NewsroomController::class, 'show']);
     Route::delete('/newsroom/{newsroom:slug}', [NewsroomController::class, 'destroy'])->name('newsroom.destroy');
+    Route::get('/newsroom/{newsroom:slug}/edit', [NewsroomController::class, 'edit']);
+    Route::put('/newsroom/{newsroom:slug}/update', [NewsroomController::class, 'update']);
 
 });

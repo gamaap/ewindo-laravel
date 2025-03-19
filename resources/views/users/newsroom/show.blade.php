@@ -10,8 +10,13 @@
             <div class="flex flex-col items-center gap-4">
                 <!-- Centered main image with reduced size -->
                 <div class="w-3/5">
-                    <img class="w-full h-auto rounded-lg"
-                        src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="Main Image">
+                    @if ($newroom->image)
+                        <img class="w-full h-auto rounded-lg" src="{{ asset('storage/' . $newroom->image) }}"
+                            alt="Main Image">
+                    @else
+                        <img class="w-full h-auto rounded-lg"
+                            src="https://flowbite.s3.amazonaws.com/docs/gallery/featured/image.jpg" alt="Main Image">
+                    @endif
                 </div>
                 <!-- Smaller images grid with total width equal to main image -->
                 <div class="w-3/5 grid grid-cols-4 gap-4">
@@ -38,12 +43,7 @@
                 <p>
                     {{ $newroom['body'] }}
                 </p>
-                <p class="mt-4">
-                    Lorem ipsum dolor sit amet consectetur adipisicing elit. Libero aliquid delectus itaque error,
-                    ducimus at ipsam deserunt, a ex, vel repellendus iusto obcaecati. Ad hic, quas voluptatem
-                    consequuntur error facilis, sequi cupiditate fuga numquam non similique? Veniam fugit dolore
-                    corrupti quia, ratione harum atque voluptatum id debitis sapiente explicabo neque.
-                </p>
+
             </article>
             <div class="flex flex-col gap-4 items-end mt-12">
                 <address class="flex items-end not-italic">

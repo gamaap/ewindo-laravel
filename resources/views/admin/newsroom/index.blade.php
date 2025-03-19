@@ -53,15 +53,20 @@
                     </form>
                 </div>
 
-                {{ $articles->links() }}
                 <div
                     class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                     {{-- <?php for ($i = 0; $i < 9; $i++) : ?> --}}
                     @foreach ($articles as $article)
                         <div class="border border-gray-300 rounded-2xl p-4 bg-white shadow-lg">
                             <article class="flex max-w-xl flex-col items-start justify-between">
-                                <img src="/assets/google-hq.png" alt="Article Image"
-                                    class="w-full h-48 rounded-lg mb-4" />
+                                @if ($article->image)
+                                    <img src="{{ asset('storage/' . $article->image) }}" alt="Article Image"
+                                        class="w-full h-48 rounded-lg mb-4" />
+                                @else
+                                    <img src="/assets/google-hq.png" alt="Article Image"
+                                        class="w-full h-48 rounded-lg mb-4" />
+                                @endif
+
                                 <div class="flex items-center gap-x-4 text-xs">
                                     <time datetime="2020-03-16"
                                         class="text-gray-500">{{ $article->created_at->diffForHumans() }}</time>
@@ -70,7 +75,7 @@
                                 </div>
                                 <div class="group relative">
                                     <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
-                                        <a href="/admin/press-edit.php">
+                                        <a href="newsroom/{{ $article->slug }}">
                                             <span class="absolute inset-0"></span>
                                             {{ $article->title }}
                                         </a>

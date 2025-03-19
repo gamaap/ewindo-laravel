@@ -7,6 +7,7 @@ use App\Models\Newsroom;
 use Illuminate\Http\Request;
 use App\Models\NewsroomCategory;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Storage;
 use Cviebrock\EloquentSluggable\Services\SlugService;
 
 class NewsroomController extends Controller
@@ -32,7 +33,6 @@ class NewsroomController extends Controller
             $query->orderBy('created_at', 'desc');
         }
 
-
             return view('admin.newsroom.index',[
              'articles' => $query->paginate(9)->withQueryString(),
              'categories' => NewsroomCategory::all()
@@ -40,26 +40,31 @@ class NewsroomController extends Controller
             
         } else {
         return view('users.newsroom.index',[
-            'articles' => Newsroom::all(), 
-            'categories' => NewsroomCategory::all()
+            'articles' => Newsroom::latest()->get(), 
+            'categories' => NewsroomCategory::latest()->get()
         ]);
     }
 }
     public function filter(NewsroomCategory $category)
     {
         return view('users.newsroom.index',[
-        'articles' => Newsroom::all(), 
-        'categories' => NewsroomCategory::all(),
+        'articles' => Newsroom::latest()->get(), 
+        'categories' => NewsroomCategory::latest()->get(),
         'articles' => $category->newsrooms
         ]);
     }
 
-    public function show(Newsroom $newroom)
+    public function show(Request $request, Newsroom $newroom)
     {
         if (!$newroom) {
             abort(404, 'Newsroom not found');
         }
-        return view('users.newsroom.show', compact('newroom'));
+        if ($request->is('admin/*')) 
+        {
+            return view('admin.newsroom.show', compact('newroom'));
+        } else {
+            return view('users.newsroom.show', compact('newroom'));
+        }
     }
 
     public function create(Request $request)
@@ -78,11 +83,21 @@ class NewsroomController extends Controller
             'title' => 'required|max:255',
             'slug' => 'required|unique:newsrooms',
             'category_id' => 'required',
+            'image' => 'image|file|max:1024',
             'body' => 'required'
+            
 
         ]);
 
+        if($request->file('image'))
+        {
+            $validateData['image'] = $request->file('image')->
+            store('image-post');
+        }
+
         $validateData['user_id'] = Auth::user()->id;
+
+        // dd($validateData);
 
         Newsroom::create($validateData);
 
@@ -91,6 +106,10 @@ class NewsroomController extends Controller
     
     public function destroy(Newsroom $newsroom)
     {
+
+        if($newsroom->image){
+            Storage::delete($newsroom->image); 
+        }
         // dd($request);
         Newsroom::destroy($newsroom->id); 
         return redirect('/admin/newsroom')->with('success', 'Post Has Been Deleted!');
@@ -101,5 +120,48 @@ class NewsroomController extends Controller
     {
         $slug = SlugService::createSlug(Newsroom::class, 'slug', $request->title);
         return response()->json(['slug' => $slug]);
+    }
+
+    public function edit (Newsroom $newsroom)
+    {
+        return view('admin.newsroom.edit', [
+            'newsroom' => $newsroom,
+            'categories' => Newsroomcategory::all()]);
+    }
+
+    public function update (Request $request, Newsroom $newsroom)
+    {
+        $rules = [
+            'title' => 'required|max:255',
+            'category_id' => 'required',
+            'image' => 'image|file|max:1024',
+            'body' => 'required'
+
+        ];
+
+        if($request->slug != $newsroom->slug)
+        {
+            $rules['slug'] = 'required|unique:newsrooms';
+        }
+
+        $validateData = $request->validate($rules);
+
+
+        // validate image
+        if($request->file('image'))
+        {
+            if($request->oldImage){
+                Storage::delete($request->oldImage); 
+            }
+            $validateData['image'] = $request->file('image')->
+            store('image-post');
+        }
+
+        $validateData['user_id'] = Auth::user()->id;
+
+        Newsroom::where('id', $newsroom->id)
+                ->update($validateData);
+
+        return redirect('/admin/newsroom')->with('success', 'Post Has Been Updated!');
     }
 }

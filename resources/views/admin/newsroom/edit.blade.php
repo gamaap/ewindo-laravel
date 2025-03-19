@@ -1,43 +1,43 @@
 <x-admin.layout>
     <x-slot:heading>
-        New Press
+        Edit Press
     </x-slot:heading>
 
     <main>
         <div class="mx-auto max-w-7xl px-4 py-6 sm:px-6 lg:px-8">
-            <form method="POST" action="/admin/newsroom" enctype="multipart/form-data">
+            <form method="POST" action="/admin/newsroom/{{ $newsroom->slug }}/update" enctype="multipart/form-data">
+                @method('put')
                 @csrf
                 <div class="space-y-12">
                     <div class="border-b border-gray-900/10 pb-12">
                         <div class="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                             <div class="col-span-4">
-                                {{-- <label for="title" class="block text-sm/6 font-medium text-gray-900">Title <span
+                                <label for="title" class="block text-sm/6 font-medium text-gray-900">Title <span
                                         class="text-red-500">*</span></label>
                                 <div class="mt-2">
                                     <input id="title" name="title" type="text"
                                         class=" @error('title') is-invalid @enderror block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                        autofocus value="{{ old('title') }}">
+                                        autofocus value="{{ old('title', $newsroom->title) }}">
 
                                     @error('title')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
                                     @enderror
-                                </div> --}}
-                                <x-forms.input name="title" label="Title" />
+                                </div>
                             </div>
                             <div class="col-span-4">
-                                <label for="slug"
-                                    class="@error('slug') is-invalid @enderror block text-sm/6 font-medium text-gray-900">Slug
+                                <label for="slug" class="block text-sm/6 font-medium text-gray-900">Slug
                                     <span class="text-red-500">*</span></label>
                                 <div class="mt-2">
                                     <input id="slug" name="slug" type="text" autocomplete="slug"
                                         class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
-                                        autofocus value="{{ old('slug') }}">
+                                        autofocus value="{{ old('slug', $newsroom->slug) }}">
                                     @error('slug')
                                         <div class="invalid-feedback">
                                             {{ $message }}
                                         </div>
+                                        <p>test</p>
                                     @enderror
                                 </div>
                             </div>
@@ -49,7 +49,7 @@
                                         class="col-start-1 row-start-1 w-full appearance-none rounded-md bg-white py-1.5 pr-8 pl-3 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">
                                         <option selected disabled>Choose</option>
                                         @foreach ($categories as $category)
-                                            @if (old('category_id') == $category->id)
+                                            @if (old('category_id', $newsroom->category_id) == $category->id)
                                                 <option value="{{ $category->id }}"selected>{{ $category->name }}
                                                 </option>
                                             @else
@@ -71,7 +71,7 @@
                                     <span class="text-red-500">*</span></label>
                                 <div class="mt-2">
                                     <textarea name="body" id="body" rows="3"
-                                        class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">{{ old('body') }}</textarea>
+                                        class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6">{{ old('body', $newsroom->body) }}</textarea>
                                     @error('body')
                                         <div class="invalid-feedback">
                                             {{ $message }}
@@ -86,7 +86,14 @@
                                 <div
                                     class="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
                                     <div class="text-center">
-                                        <img class="image_preview mt-2" style="display:none; width:200px;" />
+                                        <input type="hidden" name="oldImage" value="{{ $newsroom->image }}">
+                                        @if ($newsroom->image)
+                                            <img src="{{ asset('storage/' . $newsroom->image) }}"
+                                                class="image_preview mt-2" style="display:none; width:200px;" />
+                                        @else
+                                            <img class="image_preview mt-2" style="display:none; width:200px;" />
+                                        @endif
+
                                         <div
                                             class="mt-4 flex text-sm/6 text-gray-600 @error('image') is-invalid @enderror">
 
@@ -108,7 +115,6 @@
                                         <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB and max 20
                                             files.
                                         </p>
-
                                     </div>
                                 </div>
                             </div>
@@ -119,7 +125,8 @@
                     <button type="button"></button>
                     <button type="button" class="text-sm/6 font-semibold text-gray-900">Cancel</button>
                     <button type="submit"
-                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Save</button>
+                        class="rounded-md bg-indigo-600 px-3 py-2 text-sm font-semibold text-white shadow-xs hover:bg-indigo-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">Update
+                        Post</button>
                 </div>
             </form>
         </div>
