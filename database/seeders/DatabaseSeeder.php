@@ -9,6 +9,7 @@ use App\Models\Newsroom;
 use Illuminate\Database\Seeder;
 use Database\Seeders\UserSeeder;
 use Database\Seeders\CategorySeeder;
+use Illuminate\Support\Facades\Hash;
 
 class DatabaseSeeder extends Seeder
 {
@@ -18,11 +19,13 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
+        User::factory()->create([
+            'name' => 'Gama',
+            'email' => 'gama@example.com',
+            'password' => Hash::make('password')
+        ]);
 
-        $this->call([CategorySeeder::class, UserSeeder::class]);
-        Newsroom::factory(100)->recycle([
-            Category::all(),
-            User::all()
-        ])->create();
+        $this->call(ProductGroupSeeder::class);
+        $this->call(CertificateSeeder::class);
     }
 }

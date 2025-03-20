@@ -5,11 +5,11 @@ namespace Database\Factories;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Certificate>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ProductImage>
  */
-class CertificateFactory extends Factory
+class ProductImageFactory extends Factory
 {
-    /*
+    /**
      * Define the model's default state.
      *
      * @return array<string, mixed>
@@ -17,8 +17,7 @@ class CertificateFactory extends Factory
     public function definition(): array
     {
         return [
-            'name' => fake()->name,
-            'logo' => fake()->image('public/storage/certificates', 250, 250, null, false)
+            //
         ];
     }
 }

@@ -5,43 +5,43 @@ import "swiper/css/pagination";
 import { Navigation, Pagination, Autoplay } from "swiper/modules";
 import Swiper from "swiper";
 
-// Swiper
-new Swiper(".swiper-plant", {
-    modules: [Navigation, Pagination, Autoplay],
-
-    // Optional parameters
-    loop: true,
-    slidesPerView: 1,
-    spaceBetween: 30,
-
-    autoplay: {
-        delay: 6000,
-        disableOnInteraction: false,
-    },
-
-    pagination: {
-        el: ".swiper-pagination-plant",
-        clickable: true,
-    },
-
-    navigation: {
-        nextEl: ".swiper-button-next-plant",
-        prevEl: ".swiper-button-prev-plant",
-    },
-});
-
-// new Swiper(".swiper-certificate", {
-//     slidesPerView: 4,
-//     spaceBetween: 20,
-//     slidesPerGroup: 4,
-//     navigation: {
-//         nextEl: ".swiper-button-next-certificate",
-//         prevEl: ".swiper-button-prev-certificate",
-//     },
-// });
-
-// Document Fragments
 document.addEventListener("DOMContentLoaded", function () {
+    // Swiper
+    new Swiper(".swiper-plant", {
+        modules: [Navigation, Pagination, Autoplay],
+
+        // Optional parameters
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 30,
+
+        autoplay: {
+            delay: 6000,
+            disableOnInteraction: false,
+        },
+
+        pagination: {
+            el: ".swiper-pagination-plant",
+            clickable: true,
+        },
+
+        navigation: {
+            nextEl: ".swiper-button-next-plant",
+            prevEl: ".swiper-button-prev-plant",
+        },
+    });
+
+    // new Swiper(".swiper-certificate", {
+    //     slidesPerView: 4,
+    //     spaceBetween: 20,
+    //     slidesPerGroup: 4,
+    //     navigation: {
+    //         nextEl: ".swiper-button-next-certificate",
+    //         prevEl: ".swiper-button-prev-certificate",
+    //     },
+    // });
+
+    // Document Fragments
     const sections = document.querySelectorAll("div[id]");
     const navLinks = document.querySelectorAll(".nav-link");
 
@@ -75,14 +75,8 @@ document.addEventListener("DOMContentLoaded", function () {
     window.addEventListener("scroll", updateActiveLink);
     updateActiveLink(); // Call on load in case user refreshes in the middle of page
 
-    // COMPLETE PLUGINS AND TOOLBAR
-    // tinymce.init({
-    //     selector: 'textarea',
-    //     plugins: 'anchor autolink charmap codesample emoticons image link lists media searchreplace table visualblocks wordcount',
-    //     toolbar: 'undo redo | blocks fontfamily fontsize | bold italic underline strikethrough | link image media table | align lineheight | numlist bullist indent outdent | emoticons charmap | removeformat',
-    //   });
-
     tinymce.init({
+        license_key: "gpl",
         selector: "textarea#description",
         menubar: false,
         branding: false,

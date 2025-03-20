@@ -11,6 +11,8 @@ class ProductGroup extends Model
     /** @use HasFactory<\Database\Factories\ProductGroupFactory> */
     use HasFactory;
 
+    protected $guarded = [];
+
     public function products(): HasMany
     {
         return $this->hasMany(Product::class);

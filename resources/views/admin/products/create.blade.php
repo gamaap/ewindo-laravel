@@ -5,19 +5,16 @@
 
   <x-forms.form method="POST" action="/admin/products" enctype="multipart/form-data">
     <div class="col-span-full">
-      <x-forms.select label="Category" name="category">
+      <x-forms.select label="Category" name="product_group_id">
         <option selected disabled>Pilih</option>
-        <option>Cables</option>
-        <option>Enamelled Wires</option>
-        <option>Power Supply Cord and Cord Set</option>
+        @foreach ($parentGroups as $parent)
+          <option value="{{ $parent->id }}">{{ $parent->name }}</option>
+        @endforeach
       </x-forms.select>
     </div>
     <div class="col-span-full">
       <x-forms.select label="Category Type" name="category_type">
         <option selected disabled>Pilih</option>
-        <option>Cables</option>
-        <option>Enamelled Wires</option>
-        <option>Power Supply Cord and Cord Set</option>
       </x-forms.select>
     </div>
     <x-forms.divider />
@@ -30,9 +27,9 @@
             <path fill-rule="evenodd" d="M1.5 6a2.25 2.25 0 0 1 2.25-2.25h16.5A2.25 2.25 0 0 1 22.5 6v12a2.25 2.25 0 0 1-2.25 2.25H3.75A2.25 2.25 0 0 1 1.5 18V6ZM3 16.06V18c0 .414.336.75.75.75h16.5A.75.75 0 0 0 21 18v-1.94l-2.69-2.689a1.5 1.5 0 0 0-2.12 0l-.88.879.97.97a.75.75 0 1 1-1.06 1.06l-5.16-5.159a1.5 1.5 0 0 0-2.12 0L3 16.061Zm10.125-7.81a1.125 1.125 0 1 1 2.25 0 1.125 1.125 0 0 1-2.25 0Z" clip-rule="evenodd" />
           </svg>
           <div class="mt-4 flex text-sm/6 text-gray-600">
-            <label for="upload-product" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500">
+            <label for="images" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500">
               <span>Upload a file</span>
-              <input id="upload-product" name="upload-product" type="file" class="sr-only">
+              <input id="images" name="images[]" type="file" class="sr-only" multiple>
             </label>
             <p class="pl-1">or drag and drop</p>
           </div>
@@ -44,23 +41,25 @@
       <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Certification 
       </label>
       <div class="grid grid-cols-5 gap-4">
-        <div class="flex items-center gap-3">
-          <div class="flex h-6 shrink-0 items-center">
-            <div class="group grid size-4 grid-cols-1">
-              <input id="cert-1" aria-describedby="cert-1-description" name="certifications[]" value="cert-1" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-              <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
-                <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
+        @foreach ($certificates as $certificate)
+          <div class="flex items-center gap-3">
+            <div class="flex h-6 shrink-0 items-center">
+              <div class="group grid size-4 grid-cols-1">
+                <input id="cert-{{ $certificate->id }}" aria-describedby="cert-1-description" name="certificates[]" value="{{ $certificate->id }}" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
+                <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
+                  <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                  <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
+                </svg>
+              </div>
+            </div>
+            <div class="text-sm/6">
+              <label for="cert-{{ $certificate->id }}" class="font-medium text-gray-900">
+                <img src="{{ asset('storage/' . $certificate->logo) }}" width="150" alt="{{ $certificate->name }}">
+              </label>
             </div>
           </div>
-          <div class="text-sm/6">
-            <label for="cert-1" class="font-medium text-gray-900">
-              <img src="{{ asset('storage/images/qa-small/1.png') }}" width="150" alt="">
-            </label>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
+        @endforeach
+        {{-- <div class="flex items-center gap-3">
           <div class="flex h-6 shrink-0 items-center">
             <div class="group grid size-4 grid-cols-1">
               <input id="cert-2" aria-describedby="cert-2-description" name="certifications[]" value="cert-2" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
@@ -123,7 +122,7 @@
               <img src="{{ asset('storage/images/qa-small/5.png') }}" width="120" alt="">
             </label>
           </div>
-        </div>
+        </div> --}}
       </div>
     </div>
     <x-forms.divider />
@@ -161,8 +160,8 @@
       <x-forms.fieldset>
         RoHS Compliance
         <div class="mt-2 flex gap-x-6">
-          <x-forms.radio label="Yes" id="yes" name="rohs" value="Yes" />
-          <x-forms.radio label="No" id="no" name="rohs" value="No"/>
+          <x-forms.radio label="Yes" id="yes" name="rohs" value="1" />
+          <x-forms.radio label="No" id="no" name="rohs" value="0" />
         </div>
       </x-forms.fieldset>
     </div>
@@ -184,3 +183,23 @@
     <x-forms.button>Publish</x-forms.button>
   </x-forms.form>
 </x-admin.layout>
+
+<script>
+  // handle product child groups
+  let parentSelect = document.getElementById('product_group_id');
+  let childSelect = document.getElementById('category_type');
+
+  let childCategories = @json($childGroups); // Convert Laravel data to JS object
+
+  parentSelect.addEventListener('change', function() {
+      let selectedParentId = this.value;
+      childSelect.innerHTML = '<option selected disabled>Pilih</option>'; // Reset child options
+
+      childCategories.forEach(child => {
+          if (child.parent_id == selectedParentId) {
+              let option = new Option(child.name, child.id);
+              childSelect.add(option);
+          }
+      });
+  });
+</script>
