@@ -80,7 +80,8 @@
                                 </div>
                                 {{-- <p class="mt-3 text-sm/6 text-gray-600">Write some sentences about the event.</p> --}}
                             </div>
-                            <div class="col-span-full">
+                            {{-- upload image --}}
+                            {{-- <div class="col-span-full">
                                 <label for="image" class="block text-sm/6 font-medium text-gray-900">Upload
                                     Media</label>
                                 <div
@@ -111,7 +112,16 @@
 
                                     </div>
                                 </div>
-                            </div>
+                            </div> --}}
+
+
+                            <input id="files" name="files[]" type="file" multiple onchange="previewFiles()">
+
+                            <div id="preview-container" class="mt-4 grid grid-cols-4 gap-4"></div>
+
+                            {{-- <button type="submit"
+                                class="mt-4 bg-indigo-600 text-white px-4 py-2 rounded">Upload</button> --}}
+
                         </div>
                     </div>
                 </div>
@@ -134,7 +144,9 @@
                     .then(data => slug.value = data.slug)
             });
         </script>
-        <script>
+
+        {{-- script dari sandhika galih --}}
+        {{-- <script>
             function previewImage() {
                 const image = document.querySelector('#image');
                 const imgPreview = document.querySelector('.image_preview');
@@ -147,6 +159,50 @@
                     imgPreview.src = oFREvent.target.result;
                 }
             }
+        </script> --}}
+
+        <script>
+            let filesArray = [];
+
+            function previewFiles() {
+                const fileInput = document.getElementById('files');
+                const container = document.getElementById('preview-container');
+                container.innerHTML = '';
+                filesArray = Array.from(fileInput.files);
+
+                filesArray.forEach((file, index) => {
+                    const reader = new FileReader();
+                    reader.onload = function(e) {
+                        container.innerHTML += `
+                            <div class="relative">
+                                <img src="${e.target.result}" class="rounded-lg shadow w-full h-32 object-cover"/>
+                                <button type="button" class="absolute top-1 right-1 bg-red-500 text-white rounded-full p-1 text-xs" onclick="removeFile(${index})">X</button>
+                            </div>`;
+                    };
+                    reader.readAsDataURL(file);
+                });
+            }
+
+            function removeFile(index) {
+                filesArray.splice(index, 1);
+                // Simulate re-assign file input
+                const dataTransfer = new DataTransfer();
+                filesArray.forEach(file => dataTransfer.items.add(file));
+                document.getElementById('files').files = dataTransfer.files;
+                previewFiles(); // re-render preview
+            }
+        </script>
+
+        <script>
+            < script >
+                function checkFilesLimit() {
+                    const input = document.getElementById('files');
+                    if (input.files.length > 20) {
+                        alert('You can only upload a maximum of 20 files.');
+                        input.value = ""; // reset input file
+                    }
+                } <
+                />
         </script>
     </main>
 

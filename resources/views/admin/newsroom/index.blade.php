@@ -3,6 +3,7 @@
         Press Manager
     </x-slot:heading>
 
+
     @if (session()->has('success'))
         <div class="bg-blue-100 border-t border-b border-blue-500 text-blue-700 px-4 py-3" role="alert">
             <p class="font-bold">Informational message</p>
@@ -57,10 +58,15 @@
                     class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                     {{-- <?php for ($i = 0; $i < 9; $i++) : ?> --}}
                     @foreach ($articles as $article)
+                        @php
+                            $images = json_decode($article->image, true) ?? [];
+                            $firstImage = $images[0] ?? null;
+                        @endphp
+
                         <div class="border border-gray-300 rounded-2xl p-4 bg-white shadow-lg">
                             <article class="flex max-w-xl flex-col items-start justify-between">
-                                @if ($article->image)
-                                    <img src="{{ asset('storage/' . $article->image) }}" alt="Article Image"
+                                @if ($firstImage)
+                                    <img src="{{ asset('storage/' . $firstImage) }}" alt="Article Image"
                                         class="w-full h-48 rounded-lg mb-4" />
                                 @else
                                     <img src="/assets/google-hq.png" alt="Article Image"

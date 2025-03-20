@@ -45,10 +45,14 @@
                     class="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
                     {{-- @for ($i = 0; $i < 9; $i++) --}}
                     @foreach ($articles as $article)
+                        @php
+                            $images = json_decode($article->image, true) ?? [];
+                            $firstImage = $images[0] ?? null;
+                        @endphp
                         <div class="border border-gray-300 rounded-2xl p-4">
                             <article class="flex max-w-xl flex-col items-start justify-between">
                                 @if ($article->image)
-                                    <img src="{{ asset('storage/' . $article->image) }}" alt="Article Image"
+                                    <img src="{{ asset('storage/' . json_decode($article->image)[0]) }}"
                                         class="w-full h-48 rounded-lg mb-4" />
                                 @else
                                     <img src="{{ asset('storage/images/newsroom/google-hq.png') }}" alt="Article Image"
@@ -57,7 +61,7 @@
                                 <div class="flex items-center gap-x-4 text-xs">
                                     <p>{{ $article->created_at->diffForHumans() }}</p>
                                     <a href="#"
-                                        class="relative z-10 rounded-full bg-yellow-500 px-3 py-1.5 font-medium text-white hover:bg-yellow-400">{{ $article->category->name }}</a>
+                                        class="relative z-10 rounded-full bg-yellow-500 px-3 py-1.5 font-medium text-white hover:bg-yellow-400 cursor-default">{{ $article->category->name }}</a>
                                 </div>
                                 <div class="group relative">
                                     <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">

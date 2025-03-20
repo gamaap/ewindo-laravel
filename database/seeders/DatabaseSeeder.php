@@ -21,8 +21,9 @@ class DatabaseSeeder extends Seeder
     {
         // User::factory(10)->create();
 
-        $this->call([NewsroomcategorySeeder::class, UserSeeder::class]);
-        Newsroom::factory(100)->recycle([
+        $this->call([NewsroomcategorySeeder::class, UserSeeder::class, NewsroomSeeder::class]);
+        Newsroom::factory()->recycle([
+            Newsroom::all(),
             Newsroomcategory::all(),
             User::all()
         ])->create();

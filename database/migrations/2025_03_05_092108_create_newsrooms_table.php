@@ -22,7 +22,7 @@ return new class extends Migration
             );
             $table->string('slug')->unique();
             $table->text('body');
-            $table->string('image')->nullable();
+            $table->json('image')->nullable();
             $table->timestamps();
         });
     }
