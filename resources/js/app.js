@@ -10,7 +10,6 @@ document.addEventListener("DOMContentLoaded", function () {
     new Swiper(".swiper-plant", {
         modules: [Navigation, Pagination, Autoplay],
 
-        // Optional parameters
         loop: true,
         slidesPerView: 1,
         spaceBetween: 30,
@@ -28,6 +27,24 @@ document.addEventListener("DOMContentLoaded", function () {
         navigation: {
             nextEl: ".swiper-button-next-plant",
             prevEl: ".swiper-button-prev-plant",
+        },
+    });
+
+    new Swiper(".swiper-products", {
+        modules: [Pagination, Navigation],
+
+        loop: true,
+        slidesPerView: 1,
+        spaceBetween: 30,
+
+        pagination: {
+            el: ".swiper-pagination-products",
+            clickable: true,
+        },
+
+        navigation: {
+            nextEl: ".swiper-button-next-products",
+            prevEl: ".swiper-button-prev-products",
         },
     });
 

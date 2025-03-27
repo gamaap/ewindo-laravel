@@ -66,7 +66,6 @@
               </div>
             </div>
             <div class="swiper-pagination swiper-pagination-plant"></div>
-            <!-- If we need navigation buttons -->
             <div class="swiper-button-prev swiper-button-prev-plant"></div>
             <div class="swiper-button-next swiper-button-next-plant"></div>
           </div>

@@ -3,12 +3,13 @@
 namespace App\Models;
 
 use Illuminate\Support\Str;
+use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
-use Illuminate\Support\Facades\Storage;
 
 class Product extends Model
 {
@@ -48,7 +49,7 @@ class Product extends Model
         return $this->belongsToMany(Certificate::class, 'product_certificate');
     }
 
-    public function product_groups(): HasMany
+    public function product_images(): HasMany
     {
         return $this->hasMany(ProductImage::class);
     }

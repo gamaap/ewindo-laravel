@@ -17,17 +17,21 @@ class ProductController extends Controller
     public function index(Request $request)
     {
         if ($request->is('admin/*')) {
-            // logic admin
-            return view('admin.products.index');
+            $products = Product::latest()->with(['product_images', 'certificates'])->get();
+            return view('admin.products.index', compact('products'));
         } else {
-            // logic user
             return view('users.products.index');
         }
     }
 
-    public function show()
+    public function show(Request $request, Product $product)
     {
-        return view('users.products.show');
+        $product->load(['product_images', 'certificates']);
+        if ($request->is('admin/*')) {
+            return view('admin.products.show', compact('product'));
+        } else {
+            return view('users.products.show', compact('product'));
+        }
     }
 
     public function create(Request $request)
@@ -51,7 +55,7 @@ class ProductController extends Controller
             'product_group_id' => ['required'],
             'type' => ['required'],
             'plug_type' => ['required'],
-            'connector_type' => ['required'],
+            // 'connector_type' => ['required'],
             'cable_type' => ['required'],
             'plug_type' => ['required'],
             'size' => ['required'],
@@ -62,11 +66,19 @@ class ProductController extends Controller
             'heat_resistance' => ['required'],
             'test' => ['required'],
             'description' => ['nullable', 'string'],
-            'images.*' => ['required', File::types(['png', 'jpg', 'jpeg']), 'max:2048']
+            'images.*' => ['required', File::types(['png', 'jpg', 'jpeg']), 'max:2048'],
+            'data_sheet' => ['required', File::types(['pdf']), 'max: 2048']
         ]);
 
         $productAttrs['slug'] = Str::slug($request->type . '-' . $request->cable_type);
         $productAttrs['rohs'] = $request->has('rohs');
+
+        // handle document upload
+        if ($request->hasFile('data_sheet')) {
+            $path = $productAttrs['data_sheet']->store('data_sheet', 'public');
+        }
+
+        $productAttrs['data_sheet'] = $path;
 
         $product = Product::create($productAttrs);
 

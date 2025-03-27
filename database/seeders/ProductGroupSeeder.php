@@ -14,8 +14,36 @@ class ProductGroupSeeder extends Seeder
      */
     public function run(): void
     {
-        ProductGroup::factory(5)->create()->each(function($parent) {
-            ProductGroup::factory(3)->withParent($parent->id)->create();
-        });
+
+        $productGroup = [
+            'Cables' => [
+                'Automotive Cable',
+                'Electronic Cable'
+            ],
+            'Enamelled Wire' => [
+                'EW',
+                'PVF',
+                'HEIW',
+                'AIW',
+                'UEW',
+                'PEW',
+                'EIW'
+            ],
+            'Power Supply Cord and Cord Set' => [
+                'Plug',
+                'Connector'
+            ]
+        ];
+
+        foreach ($productGroup as $rootGroup => $childGroup) {
+            $parent = ProductGroup::create(['name' => $rootGroup]);
+
+            foreach ($childGroup as $child) {
+                ProductGroup::create([
+                    'name' => $child,
+                    'parent_id' => $parent->id
+                ]);
+            }
+        }
     }
 }

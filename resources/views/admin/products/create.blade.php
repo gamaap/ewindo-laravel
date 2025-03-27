@@ -29,14 +29,15 @@
           <div class="mt-4 flex text-sm/6 text-gray-600">
             <label for="images" class="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 focus-within:outline-hidden hover:text-indigo-500">
               <span>Upload a file</span>
-              <input id="images" name="images[]" type="file" class="sr-only" multiple>
+              <input id="images" name="images[]" type="file" class="sr-only" accept="image/*" multiple>
             </label>
             <p class="pl-1">or drag and drop</p>
           </div>
-          <p class="text-xs/5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
+          <p class="text-xs/5 text-gray-600">PNG, JPG, GIF max 2MB/image(s)</p>
         </div>
       </div>
     </div>
+    <div id="image-preview-container" class="grid grid-cols-10 gap-4 mt-4"></div>
     <div class="col-span-full">
       <label class="block mb-2 text-sm font-medium text-gray-900" for="file_input">Certification 
       </label>
@@ -59,70 +60,6 @@
             </div>
           </div>
         @endforeach
-        {{-- <div class="flex items-center gap-3">
-          <div class="flex h-6 shrink-0 items-center">
-            <div class="group grid size-4 grid-cols-1">
-              <input id="cert-2" aria-describedby="cert-2-description" name="certifications[]" value="cert-2" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-              <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
-                <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </div>
-          <div class="text-sm/6">
-            <label for="cert-2" class="font-medium text-gray-900">
-              <img src="{{ asset('storage/images/qa-small/2.png') }}" width="150" alt="">
-            </label>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="flex h-6 shrink-0 items-center">
-            <div class="group grid size-4 grid-cols-1">
-              <input id="cert-3" aria-describedby="cert-3-description" name="certifications[]" value="cert-3" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-              <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
-                <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </div>
-          <div class="text-sm/6">
-            <label for="cert-3" class="font-medium text-gray-900">
-              <img src="{{ asset('storage/images/qa-small/3.png') }}" width="120" alt="">
-            </label>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="flex h-6 shrink-0 items-center">
-            <div class="group grid size-4 grid-cols-1">
-              <input id="cert-4" aria-describedby="cert-4-description" name="certifications[]" value="cert-4" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-              <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
-                <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </div>
-          <div class="text-sm/6">
-            <label for="cert-4" class="font-medium text-gray-900">
-              <img src="{{ asset('storage/images/qa-small/4.png') }}" width="150" alt="">
-            </label>
-          </div>
-        </div>
-        <div class="flex items-center gap-3">
-          <div class="flex h-6 shrink-0 items-center">
-            <div class="group grid size-4 grid-cols-1">
-              <input id="cert-5" aria-describedby="cert-5-description" name="certifications[]" value="cert-5" type="checkbox" class="col-start-1 row-start-1 appearance-none rounded-sm border border-gray-300 bg-white checked:border-indigo-600 checked:bg-indigo-600 indeterminate:border-indigo-600 indeterminate:bg-indigo-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600 disabled:border-gray-300 disabled:bg-gray-100 disabled:checked:bg-gray-100 forced-colors:appearance-auto">
-              <svg class="pointer-events-none col-start-1 row-start-1 size-3.5 self-center justify-self-center stroke-white group-has-disabled:stroke-gray-950/25" viewBox="0 0 14 14" fill="none">
-                <path class="opacity-0 group-has-checked:opacity-100" d="M3 8L6 11L11 3.5" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-                <path class="opacity-0 group-has-indeterminate:opacity-100" d="M3 7H11" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" />
-              </svg>
-            </div>
-          </div>
-          <div class="text-sm/6">
-            <label for="cert-5" class="font-medium text-gray-900">
-              <img src="{{ asset('storage/images/qa-small/5.png') }}" width="120" alt="">
-            </label>
-          </div>
-        </div> --}}
       </div>
     </div>
     <x-forms.divider />
@@ -130,10 +67,10 @@
     <div class="col-span-full">
       <x-forms.input label="Type" name="type" />
     </div>
-    <div class="col-span-full">
+    <div class="col-span-full hidden" id="plug_type">
       <x-forms.input label="Plug Type" name="plug_type" />
     </div>
-    <div class="col-span-full">
+    <div class="col-span-full hidden" id="connector_type">
       <x-forms.input label="Connector Type" name="connector_type" />
     </div>
     <div class="col-span-full">
@@ -177,7 +114,7 @@
       <x-forms.textarea label="Product Description" name="description" id="description"/>
     </div>
     <div class="col-span-full">
-      <x-forms.input label="Upload Data Sheet" name="data_sheet" type="file" />
+      <x-forms.input label="Upload Data Sheet (PDF)" name="data_sheet" type="file" accept=".pdf" />
     </div>
     <x-forms.divider />
     <x-forms.button>Publish</x-forms.button>
@@ -185,21 +122,91 @@
 </x-admin.layout>
 
 <script>
-  // handle product child groups
-  let parentSelect = document.getElementById('product_group_id');
-  let childSelect = document.getElementById('category_type');
+  document.addEventListener('DOMContentLoaded', function() {
+    // handle product child groups
+    const parentSelect = document.getElementById('product_group_id');
+    const childSelect = document.getElementById('category_type');
+  
+    const plug = document.getElementById('plug_type')
+    const connector = document.getElementById('connector_type')
+  
+    let childCategories = @json($childGroups); // Convert Laravel data to JS object
+  
+    parentSelect.addEventListener('change', function() {
+        let selectedParentId = this.value;
+        childSelect.innerHTML = '<option selected disabled>Pilih</option>'; // Reset child options
+  
+        childCategories.forEach(child => {
+            if (child.parent_id == selectedParentId) {
+                let option = new Option(child.name, child.id);
+                childSelect.add(option);
+            }
+        });
+    });
+  
+    // Handle show hide plug and connector inputs
+    childSelect.addEventListener('change', function() {
+      const selectedValue = this.value;
+  
+      plug.classList.add('hidden');
+      connector.classList.add('hidden');
+  
+      if (selectedValue == 13) {
+        plug.classList.remove('hidden');
+      } else if (selectedValue == 14) {
+        connector.classList.remove('hidden');
+      }
+    })
 
-  let childCategories = @json($childGroups); // Convert Laravel data to JS object
+    // Handle image preview upload
+    const input = document.getElementById('images');
+    const previewContainer = document.getElementById('image-preview-container')
+    let imagesArr = []
 
-  parentSelect.addEventListener('change', function() {
-      let selectedParentId = this.value;
-      childSelect.innerHTML = '<option selected disabled>Pilih</option>'; // Reset child options
+    input.addEventListener('change', function(event) {
+      const newFiles = Array.from(event.target.files)
 
-      childCategories.forEach(child => {
-          if (child.parent_id == selectedParentId) {
-              let option = new Option(child.name, child.id);
-              childSelect.add(option);
-          }
-      });
-  });
+      newFiles.forEach((file) => {
+        if (!file.type.startsWith('image/')) return
+
+        imagesArr.push(file)
+        updateFileInput()
+
+        const reader = new FileReader()
+        reader.onload = function (e) {
+          const imgContainer = document.createElement('div')
+          imgContainer.classList.add('relative', 'w-24', 'h-24', 'border', 'rounded-lg', 'overflow-hidden')
+
+          const img = document.createElement('img')
+          img.src = e.target.result
+          img.classList.add('w-full', 'h-full', 'object-cover')
+
+          const removeBtn = document.createElement('button')
+          removeBtn.innerHTML = '✖'
+          removeBtn.classList.add('absolute', 'top-1', 'right-1', 'bg-red-50', 'text-white', 'rounded-full', 'w-5', 'h-5', 'flex', 'items-center', 'justify-center', 'text-xs')
+
+          removeBtn.addEventListener('click', function() {
+            const index = imagesArr.indexOf(file)
+            if (index !== -1) {
+              imagesArr.splice(index, 1)
+              updateFileInput()
+              imgContainer.remove()
+            }
+          })
+
+          imgContainer.appendChild(img)
+          imgContainer.appendChild(removeBtn)
+          previewContainer.appendChild(imgContainer)
+        }
+        reader.readAsDataURL(file)
+      })
+    })
+
+    function updateFileInput()
+    {
+      const newFileList = new DataTransfer()
+      imagesArr.forEach(f => newFileList.items.add(f))
+      input.files = newFileList.files
+    }
+  })
 </script>

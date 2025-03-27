@@ -9,7 +9,7 @@
         >
           <li>
             <div class="flex items-center">
-              <a href="#" class="mr-2 text-sm font-medium text-gray-900"
+              <a href="/admin/products" class="mr-2 text-sm font-medium text-gray-900"
                 >Products</a
               >
               <svg
@@ -29,7 +29,7 @@
           <li>
             <div class="flex items-center">
               <a href="#" class="mr-2 text-sm font-medium text-gray-900"
-                >Category</a
+                >{{ $product->type }}</a
               >
               <svg
                 width="16"
@@ -51,24 +51,29 @@
               href="#"
               aria-current="page"
               class="font-medium text-gray-500 hover:text-gray-600"
-              >Product Name</a
+              >{{ $product->type }} - {{ $product->cable_type }}</a
             >
           </li>
         </ol>
       </nav>
-      {{-- Product Detail --}}
+      {{-- Product Description --}}
       <div class="max-w-7xl px-4 mx-auto 2xl:px-0">
         <div class="lg:grid lg:grid-cols-2 lg:gap-8 xl:gap-16">
           <div class="shrink-0 max-w-md lg:max-w-lg mx-auto rounded-xl p-8 border-black/10 bg-gray-100 shadow-lg">
-            <img class="w-full hidden dark:block" src="https://flowbite.s3.amazonaws.com/blocks/e-commerce/imac-front-dark.svg" alt="" />
+            {{-- image section (can be swiped when more than one) --}}
+            @if ($product->product_images->isNotEmpty())
+                @foreach ($product->product_images as $image)
+                  <img class="w-full hidden dark:block" src="{{ asset('storage/' . $image->image_path) }}" alt="{{ $product->cable_type }}" />  
+                @endforeach
+            @endif
           </div>
   
+          {{-- Right side description --}}
           <div class="mt-6 sm:mt-8 lg:mt-0">
             <h1
               class="text-xl font-semibold text-gray-900 sm:text-2xl"
             >
-              Apple iMac 24" All-In-One Computer, Apple M1, 8GB RAM, 256GB SSD,
-              Mac OS, Pink
+              {{ $product->type }} - {{ $product->cable_type }}
             </h1>
             {{-- Product Certificate --}}
             <div class="flex space-x-4 mt-4">
@@ -85,34 +90,46 @@
                 class="w-12 h-12 border-2 border-gold rounded-lg"
               ></div>
             </div>
-  
-            <div class="mt-4 sm:gap-4 sm:items-center sm:flex sm:mt-8">
-              <a
-                href="#"
-                title=""
-                class="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
-                role="button"
-              >
-                <svg
-                  class="w-5 h-5 -ms-2 me-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="24"
-                  height="24"
-                  fill="none"
-                  viewBox="0 0 24 24"
+            {{-- Request a quotation (for non admin auth) --}}
+            @guest
+              <div class="mt-4 sm:gap-4 sm:items-center sm:flex sm:mt-8">
+                <a
+                  href="#"
+                  title=""
+                  class="flex items-center justify-center py-2.5 px-5 text-sm font-medium text-gray-900 focus:outline-none bg-white rounded-lg border border-gray-200 hover:bg-gray-100 hover:text-primary-700 focus:z-10 focus:ring-4 focus:ring-gray-100 dark:focus:ring-gray-700 dark:bg-gray-800 dark:text-gray-400 dark:border-gray-600 dark:hover:text-white dark:hover:bg-gray-700"
+                  role="button"
                 >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
-                  />
-                </svg>
-                Request A Quotation
-              </a>
-            </div>
+                  <svg
+                    class="w-5 h-5 -ms-2 me-2"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="24"
+                    height="24"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      stroke="currentColor"
+                      stroke-linecap="round"
+                      stroke-linejoin="round"
+                      stroke-width="2"
+                      d="M12.01 6.001C6.5 1 1 8 5.782 13.001L12.011 20l6.23-7C23 8 17.5 1 12.01 6.002Z"
+                    />
+                  </svg>
+                  Request A Quotation
+                </a>
+              </div>
+            @endguest
+            @auth
+              <div class="mt-4 flex space-x-4">
+                <a href="#" class="bg-blue-500 text-white py-2 px-4 rounded">Edit</a>
+                <form action="" method="POST" onsubmit="return confirm('Are you sure?')">
+                  @csrf
+                  @method('DELETE')
+                  <button type="submit" class="bg-red-500 text-white py-2 px-4 rounded">Delete</button>
+                </form>
+              </div>
+            @endauth
           </div>
           <div
             class="py-10 lg:col-span-2 lg:col-start-1 lg:border-gray-200 lg:pt-6 lg:pr-8 lg:pb-16"
@@ -120,8 +137,9 @@
             <!-- Description and details -->
             <div>
               <h3 class="sr-only">Description</h3>
-
-              <div class="space-y-6">
+              {{-- My detail product here --}}
+              {{-- <p class="text-gray-600">{{ $product->description }}</p> --}}
+              {{-- <div class="space-y-6">
                 <p class="text-base text-gray-900">
                   Lorem ipsum dolor, sit amet consectetur adipisicing elit.
                   Error, voluptas, fugit sapiente nemo incidunt saepe
@@ -131,10 +149,10 @@
                   autem ullam, tempore, neque saepe quod et velit ea sed
                   deleniti laboriosam.
                 </p>
-              </div>
+              </div> --}}
             </div>
 
-            <div class="mt-10">
+            {{-- <div class="mt-10">
               <h3 class="text-sm font-medium text-gray-900">Features</h3>
 
               <div class="mt-4">
@@ -177,7 +195,7 @@
                   pariatur.
                 </p>
               </div>
-            </div>
+            </div> --}}
             <div class="mt-10">
               <h2 class="text-sm font-medium text-gray-900">Downloads</h2>
 
@@ -200,25 +218,6 @@
                     />
                   </svg>
                   Data Sheet Product XXX
-                </button>
-                <button
-                  type="button"
-                  class="text-white bg-indigo-600 hover:bg-indigo-700 focus:ring-4 focus:outline-none focus:ring-indigo-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center inline-flex items-center me-2 dark:bg-indigo-600 dark:hover:bg-indigo-700 dark:focus:ring-indigo-800"
-                >
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 16 16"
-                    fill="currentColor"
-                    class="size-4 mr-2"
-                  >
-                    <path
-                      d="M8.75 2.75a.75.75 0 0 0-1.5 0v5.69L5.03 6.22a.75.75 0 0 0-1.06 1.06l3.5 3.5a.75.75 0 0 0 1.06 0l3.5-3.5a.75.75 0 0 0-1.06-1.06L8.75 8.44V2.75Z"
-                    />
-                    <path
-                      d="M3.5 9.75a.75.75 0 0 0-1.5 0v1.5A2.75 2.75 0 0 0 4.75 14h6.5A2.75 2.75 0 0 0 14 11.25v-1.5a.75.75 0 0 0-1.5 0v1.5c0 .69-.56 1.25-1.25 1.25h-6.5c-.69 0-1.25-.56-1.25-1.25v-1.5Z"
-                    />
-                  </svg>
-                  Certificates of Compliance Product XXX
                 </button>
               </div>
             </div>

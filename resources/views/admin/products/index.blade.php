@@ -35,34 +35,40 @@
         </div>
       </div>
     </div>
-    @for ($i = 0; $i < 3; $i++)
-      <section class="container mx-auto py-6">
-        <div
-          class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8 mt-8"
-        >
-          @for ($j = 0; $j < 5; $j++)
-            <div class="rounded-lg overflow-hidden shadow-lg">
-              <img
-                alt="Product image of enameled round copper wires"
-                class="w-full"
-                height="300"
-                src="https://storage.googleapis.com/a1aa/image/IYQ51UHtj3a9OtwfsW8Xy5TGiGR3WMh7U2fxVS5aBIEZO2HUA.jpg"
-                width="300"
-              />
-              <div class="p-4">
-                <h3 class="font-bold">Product Name</h3>
-                <p class="text-gray-600 mb-6">Product Code</p>
-                <a
-                  href="product-detail.php"
-                  class="mt-4 bg-yellow-500 text-white py-2 px-4 rounded"
-                >
-                  Edit
-                </a>
-              </div>
+    {{-- Products Card --}}
+    <section class="container mx-auto py-6">
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-8">
+        @foreach ($products as $product)
+          <div class="relative rounded-lg overflow-hidden shadow-lg border-1 border-gold flex flex-col h-full">
+            <img
+              alt="Product image of {{ $product->type }}"
+              class="w-full h-60 object-cover"
+              height="300"
+              src="{{ asset('storage/' . $product->product_images->first()->image_path) }}"
+              width="300"
+            />
+
+            {{-- Product Certificates --}}
+            @if ($product->certificates->isNotEmpty())
+                <div class="absolute top-2 right-2 flex flex-col space-y-1">
+                  @foreach ($product->certificates as $certificate)
+                      <img class="w-10 h-10 border-2 border-gray-200 rounded-lg shadow-md object-contain bg-gray-100" src="{{ asset('storage/' . $certificate->logo) }}" alt="{{ $certificate->name }}">
+                  @endforeach
+                </div>
+            @endif
+            <div class="p-4 border-t border-gold flex-grow flex-col justify-between">
+              <h3 class="font-bold">{{ $product->type }}</h3>
+              <p class="text-gray-600 mb-6">{{ $product->cable_type }}</p>
+              <a
+                href="/admin/products/{{ $product->slug }}"
+                class="mt-4 bg-gold text-white py-2 px-4 rounded"
+              >
+                View
+              </a>
             </div>
-          @endfor
-        </div>
-      </section>
-    @endfor
+          </div>
+        @endforeach
+      </div>
+    </section>
   </div>
 </x-admin.layout>
