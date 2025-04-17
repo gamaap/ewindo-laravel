@@ -56,6 +56,7 @@ class NewsroomController extends Controller
 
     public function show(Request $request, Newsroom $newroom)
     {
+      
         if (!$newroom) {
             abort(404, 'Newsroom not found');
         }
@@ -71,7 +72,8 @@ class NewsroomController extends Controller
     {
         if ($request->is('admin/*')) {
             return view('admin.newsroom.create', [
-                'categories' => Newsroomcategory::all()]);
+                'categories' => Newsroomcategory::all()
+            ]);
         } else {
             return view('users.newsroom.create');
         }
@@ -93,16 +95,12 @@ class NewsroomController extends Controller
         $uploadedFiles = [];
         if ($request->hasFile('files')) {
             foreach ($request->file('files') as $file) {
-                $path = $file->store('image-newsroom', 'public');
+                $path = $file->store('newsroom-images', 'public');
                 $uploadedFiles[] = $path;
             }
         }
 
-        // if($request->file('image'))
-        // {
-        //     $validateData['image'] = $request->file('image')->
-        //     store('image-post');
-        // }
+       
 
         $validateData['user_id'] = Auth::user()->id;
         $validateData['image'] = json_encode($uploadedFiles);
@@ -140,120 +138,67 @@ class NewsroomController extends Controller
     {
         return view('admin.newsroom.edit', [
             'newsroom' => $newsroom,
+            'existingImages' => json_decode($newsroom->image, true),
             'categories' => Newsroomcategory::all()]);
     }
-
-    // public function update (Request $request, Newsroom $newsroom)
-    // {
-    //     $rules = [
-    //         'title' => 'required|max:255',
-    //         'category_id' => 'required',
-    //         // 'image' => 'image|file|max:1024',
-    //         'image' => 'sometimes|array|max:20',
-    //         'image.*' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
-    //         'body' => 'required'
-
-    //     ];
-
-    //     foreach ($request->file('image') as $file) {
-    //         $path = $file->store('image-postt2', 'public');
-    //         $uploadedFiles[] = $path;
-    //     }
-    //     dd($uploadedFiles); // Cek apakah path terisi?
-
-    //     if ($request->slug != $newsroom->slug) {
-    //         $rules['slug'] = 'required|unique:newsrooms';
-    //     }
-    
-    //     $validateData = $request->validate($rules);
-    
-    //     $validateData['user_id'] = Auth::user()->id;
-
-
-        // Upload file baru
-
-        
-        
-        // if ($request->hasFile('image')) {
-        //     // Optional: Delete old images if needed
-        //     if ($request->oldImage) {
-        //         $oldImages = json_decode($request->oldImage, true) ?? [];
-        //         foreach ($oldImages as $old) {
-        //             Storage::delete($old);
-        //         }
-        //     }
-        
-        //     // Multiple upload
-        //     $uploadedFiles = [];
-        //     foreach ($request->file('image') as $file) {
-        //         $path = $file->store('image-postt2', 'public');
-        //         $uploadedFiles[] = $path;
-        //     }
-        
-        //     // Save as JSON
-        //     $validateData['image'] = json_encode($uploadedFiles);
-        // }
-    
-        // // Update data newsroom
-        // Newsroom::where('id', $newsroom->id)->update($validateData);
-    
-        // return redirect('/admin/newsroom')->with('success', 'Post Has Been Updated!');
-        
-
-        // validate image
-        // if($request->file('image'))
-        // {
-        //     if($request->oldImage){
-        //         Storage::delete($request->oldImage); 
-        //     }
-        //     $validateData['image'] = $request->file('image')->
-        //     store('image-post');
-        // }
-
-//     }
 public function update(Request $request, Newsroom $newsroom)
 {
     $rules = [
         'title' => 'required|max:255',
         'category_id' => 'required',
-        'image' => 'sometimes|array|max:20',
-        'image.*' => 'image|mimes:jpg,jpeg,png,gif|max:2048',
+        'files' => 'sometimes|array|max:20',
+        'files.*' => 'image|mimes:jpg,jpeg,png,gif|max:80048',
         'body' => 'required'
     ];
+
+    
 
     if ($request->slug != $newsroom->slug) {
         $rules['slug'] = 'required|unique:newsrooms';
     }
 
-    $validateData = $request->validate($rules);
-    $validateData['user_id'] = Auth::user()->id;
+    $validatedData = $request->validate($rules);
 
-    // Logic untuk upload image baru
-    if ($request->hasFile('image')) {
-        // 1. Hapus gambar lama jika ada
-        if ($newsroom->image) {
-            $oldImages = json_decode($newsroom->image, true) ?? [];
-            foreach ($oldImages as $old) {
-                if (Storage::disk('public')->exists($old)) {
-                    Storage::disk('public')->delete($old);
-                }
-            }
-        }
+    // Ambil gambar lama yang masih dipertahankan (yang masih tampil di preview)
+    $remainingOldImages = json_decode($request->input('remaining_old_images', '[]'), true);
+    $oldImages = json_decode($newsroom->image ?? '[]', true);
 
-        // 2. Upload gambar baru
-        $uploadedFiles = [];
-        foreach ($request->file('image') as $file) {
-            $path = $file->store('image-newsroom', 'public');
-            $uploadedFiles[] = $path;
-        }
-
-        // 3. Simpan JSON array ke DB
-        $validateData['image'] = json_encode($uploadedFiles);
+    // Cari gambar lama yang dihapus, lalu hapus dari storage
+    $deletedImages = array_diff($oldImages, $remainingOldImages);
+    foreach ($deletedImages as $file) {
+        Storage::delete('public/' . $file);
     }
 
-    // 4. Update data ke database
-    $newsroom->update($validateData);
+    // Upload file baru jika ada
+    $newImages = [];
+    if ($request->hasFile('files')) {
+        foreach ($request->file('files') as $file) {
+            $path = $file->store('newsroom-images', 'public');
+            $newImages[] = $path;
+        }
+        // dd($newImages);
+    }
+    // dd($request->file('files'));
+    // Gabungkan gambar lama yang masih ada + gambar baru
+    $finalImages = array_merge($remainingOldImages, $newImages);
 
+
+    // dd([
+    //     'remaining' => $remainingOldImages,
+    //     'new' => $newImages,
+    //     'final' => $finalImages
+    // ]);
+    // Update data newsroom
+    $newsroom->update([
+        'title' => $validatedData['title'],
+        'slug' => $validatedData['slug'] ?? $newsroom->slug,
+        'category_id' => $validatedData['category_id'],
+        'body' => $validatedData['body'],
+        'image' => json_encode($finalImages),
+    ]);
+
+    // dd($newsroom->fresh()->image);
+    
     return redirect('/admin/newsroom')->with('success', 'Post Has Been Updated!');
 }
 

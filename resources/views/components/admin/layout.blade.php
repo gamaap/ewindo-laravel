@@ -15,6 +15,8 @@
                                 <x-admin.nav-link href="/admin/products" :active="request()->is('admin/products*')">Products</x-admin.nav-link>
                                 <x-admin.nav-link href="/admin/newsroom" :active="request()->is('admin/newsroom*')">Press
                                     Manager</x-admin.nav-link>
+                                <x-admin.nav-link href="/admin/job" :active="request()->is('admin/job*')">HR
+                                    Manager</x-admin.nav-link>
                             </div>
                         </div>
                     </div>

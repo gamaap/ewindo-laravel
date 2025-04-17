@@ -51,12 +51,12 @@
                         @endphp
                         <div class="border border-gray-300 rounded-2xl p-4">
                             <article class="flex max-w-xl flex-col items-start justify-between">
-                                @if ($article->image)
-                                    <img src="{{ asset('storage/' . json_decode($article->image)[0]) }}"
+                                @if ($firstImage)
+                                    <img src="{{ asset('storage/' . $firstImage) }}"
                                         class="w-full h-48 rounded-lg mb-4" />
                                 @else
-                                    <img src="{{ asset('storage/images/newsroom/google-hq.png') }}" alt="Article Image"
-                                        class="w-full h-48 rounded-lg mb-4" />
+                                    <img src="{{ asset('storage/images/newsroom/google-hq.png') }}"
+                                        alt="Default Article Image" class="w-full h-48 rounded-lg mb-4" />
                                 @endif
                                 <div class="flex items-center gap-x-4 text-xs">
                                     <p>{{ $article->created_at->diffForHumans() }}</p>
@@ -71,7 +71,7 @@
                                         </a>
                                     </h3>
                                     <p class="mt-5 line-clamp-3 text-sm/6 text-gray-600">
-                                        {{ $article->body }}
+                                        {!! Str::limit($article->body, 150) !!}
                                     </p>
                                     {{-- <a href="javascript:;"
                                         class="cursor-pointer text-md text-indigo-600 font-semibold">Read

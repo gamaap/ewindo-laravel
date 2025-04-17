@@ -12,7 +12,8 @@ use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 class Job extends Model
 {
     use HasFactory, Sluggable;
-    protected $fillable = ['job_name', 'slug', 'departement_id', 'job_type', 'quota', 'job_location', 'job_deskripsi', 'job_status'];
+    protected $fillable = ['job_name', 'slug', 'departement_id', 'job_type', 'quota', 'job_location', 'status_education', 'age', 'ipk', 'job_status'];
+    protected $casts = ['job_status' => 'boolean'];
 
 
     public function tag(string $name): void
@@ -39,6 +40,11 @@ class Job extends Model
                 'source' => 'job_name'
             ]
         ];
+    }
+
+    public function applicants()
+    {
+        return $this->hasMany(Applicant::class); // Relasi ke applicants
     }
 
 

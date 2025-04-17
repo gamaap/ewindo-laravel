@@ -62,6 +62,40 @@
                                             </div>
                                         </div>
 
+                                        <div class="col-span-4">
+                                            <label for="age"
+                                                class="@error('age') is-invalid @enderror block text-sm/6 font-medium text-gray-900">
+                                                Maximal Umur
+                                                <span class="text-red-500">*</span></label>
+                                            <div class="mt-2">
+                                                <input id="age" name="age" type="text" autocomplete="age"
+                                                    class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    autofocus value="{{ old('age', $job->age) }}">
+                                                @error('age')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+
+                                        <div class="col-span-4">
+                                            <label for="ipk"
+                                                class="@error('ipk') is-invalid @enderror block text-sm/6 font-medium text-gray-900">
+                                                Maximal Nilai IPK
+                                                <span class="text-red-500">*</span></label>
+                                            <div class="mt-2">
+                                                <input id="ipk" name="ipk" type="text" autocomplete="ipk"
+                                                    class="block w-full rounded-md bg-white px-3 py-1.5 text-base text-gray-900 outline-1 -outline-offset-1 outline-gray-300 placeholder:text-gray-400 focus:outline-2 focus:-outline-offset-2 focus:outline-indigo-600 sm:text-sm/6"
+                                                    autofocus value="{{ old('ipk', $job->ipk) }}">
+                                                @error('ipk')
+                                                    <div class="invalid-feedback">
+                                                        {{ $message }}
+                                                    </div>
+                                                @enderror
+                                            </div>
+                                        </div>
+
                                         <div class="sm:col-span-3">
                                             <label for="job_type" class="block text-sm/6 font-medium text-gray-900">Job
                                                 Type
@@ -123,8 +157,26 @@
                                             </div>
                                         </div>
 
+                                        <div class="sm:col-span-3">
+                                            <label for="status_education"
+                                                class="block text-sm/6 font-medium text-gray-900">Minimal Pendidikan
+                                                <span class="text-red-500">*</span></label>
+                                            <div class="mt-2 grid grid-cols-1">
+                                                <select name="status_education">
+                                                    <option selected disabled>Choose</option>
+                                                    <option value="SMK"
+                                                        {{ old('status_education', $job->status_education ?? '') == 'SMK' ? 'selected' : '' }}>
+                                                        SMK</option>
+                                                    <option value="Sarjana S1"
+                                                        {{ old('status_education', $job->status_education ?? '') == 'Sarjana S1' ? 'selected' : '' }}>
+                                                        S1</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                    </div>
 
-                                        <div class="col-span-full">
+
+                                    {{-- <div class="col-span-full">
                                             <label for="job_deskripsi"
                                                 class="@error('job_deskripsi') is-invalid @enderror block text-sm/6 font-medium text-gray-900">Job
                                                 Description <span class="text-red-500">*</span></label>
@@ -138,7 +190,7 @@
                                                 @enderror
                                             </div>
                                         </div>
-                                    </div>
+                                    </div> --}}
 
 
 

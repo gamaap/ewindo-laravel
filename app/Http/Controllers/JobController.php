@@ -4,6 +4,9 @@ namespace App\Http\Controllers;
 
 use App\Models\Job;
 use App\Models\Tag;
+use App\Models\Skill;
+use App\Models\Applicant;
+use App\Models\Experience;
 use App\Models\Departement;
 use Illuminate\Support\Arr;
 use Illuminate\Http\Request;
@@ -27,9 +30,13 @@ class JobController extends Controller
                
                 
         } else {
+            
             return view('users.careers.index', [
-                'jobs' => Job::with('tags')->where('job_status', 1)->latest()->get()
+                'jobs' => Job::with('tags')->latest()->where('job_status', 1)->get()
             ]);
+            
+
+
         }
     }
 
@@ -63,7 +70,10 @@ class JobController extends Controller
             'job_type' => ['required',Rule::in(['FullTime', 'Shift', 'Internship'])],
             'quota' => 'required',
             'job_location' => ['required',Rule::in(['Plant 1', 'Plant 2'])],
-            'job_deskripsi' => 'required|max:255',
+            // 'job_deskripsi' => 'required',
+            'status_education' => 'required',
+            'age' => 'required',
+            'ipk' => 'required',
             'job_status' => 'required',
             'tags' => 'nullable'
         ]);
@@ -82,9 +92,13 @@ class JobController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(string $id)
+    public function show(Job $job)
     {
-        //
+        return view('admin.job.show',[
+        'job' =>  $job,
+        'departement' => Departement::all(),
+        'applicants' => Applicant::all()
+        ]);
     }
 
     /**
@@ -111,9 +125,12 @@ class JobController extends Controller
             'job_type' => ['required',Rule::in(['FullTime', 'Shift', 'Internship'])],
             'quota' => 'required',
             'job_location' => ['required',Rule::in(['Plant 1', 'Plant 2'])],
-            'job_deskripsi' => 'required|max:255',
+            // 'job_deskripsi' => 'required',
+            'status_education' => 'required',
+            'age' => 'required',
+            'ipk' => 'required',
             'job_status' => 'required',
-            'tags' => 'nullable'
+            'tags' => 'required'
         ];
     
         if ($request->slug != $job->slug) {
@@ -124,13 +141,27 @@ class JobController extends Controller
 
         $job->update(Arr::except($validatedData, ['tags']));
 
-        if($rules['tags'] ?? false) {
-            foreach (explode(',', $rules['tags']) as $tag) {
-                $job->tag($tag);
+        if (!empty($validatedData['tags'])) {
+            $tags = array_map('trim', explode(',', $validatedData['tags']));
+        
+            $tagIds = [];
+        
+            foreach ($tags as $tagName) {
+                $tag = \App\Models\Tag::firstOrCreate(['tag_name' => $tagName]);
+                $tagIds[] = $tag->id;
             }
+        
+            // Ini yang otomatis MENGGANTIKAN semua tag lama dengan yang baru
+            $job->tags()->sync($tagIds);
+        } else {
+            // Kalau tidak ada tag dikirim, kosongkan relasi
+            $job->tags()->detach();
         }
+        
+        
 
         return redirect('/admin/job')->with('success', 'Lowongan Has Been Updated!');
+        
     }
 
     public function filter(Request $request)
@@ -141,7 +172,7 @@ class JobController extends Controller
     // Query berdasarkan status jika tidak null
     $jobs = Job::when(isset($status), function ($query) use ($status) {
         return $query->where('job_status', $status);
-    })->get();
+    })->latest()->get();
 
     return view('admin.job.index', compact('jobs'));
 }
@@ -161,4 +192,23 @@ class JobController extends Controller
         $slug = SlugService::createSlug(Job::class, 'slug', $request->job_name);
         return response()->json(['slug' => $slug]);
     }
+
+
+    public function showDataApplicants($id)
+{
+    // Cari job, kalau gak ketemu kasih 404
+    $job = Job::findOrFail($id);
+    // Ambil semua pelamar untuk job tersebut
+    $applicants = Applicant::with(['alamatKtp', 'alamatDomisili','education'])->where('job_id', $id)->get();
+
+    return view('admin/job/show', compact('job', 'applicants'));
+}
+
+public function DetailApplicant($id){
+    $applicants = Applicant::with(['alamatKtp', 'alamatDomisili','education'])->where('id', $id)->get();
+    $experiences = Experience::where('applicant_id', $id)->get();
+    $skills = Skill::where('applicant_id', $id)->get();
+return view('admin/job/applicantshow', compact('applicants','experiences','skills'));
+}
+
 }

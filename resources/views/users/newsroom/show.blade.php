@@ -59,7 +59,7 @@
                 <!-- Article Below Images -->
                 <article class="mx-auto w-3/5 text-base/7 text-justify leading-relaxed text-gray-800 mt-8">
                     <p>
-                        {{ $newroom['body'] }}
+                        {!! $newroom['body'] !!}
                     </p>
 
                 </article>

@@ -20,9 +20,9 @@ class JobSeeder extends Seeder
         'job_type' => 'FullTime',
         'quota' => 6,
         'job_location' => 'Plant 1',
-        'job_deskripsi' => 'Mengembangkan Aplikasi yang sudah ada, 
-                            Melakukan TroubleShooting, 
-                            Membuat Aplikasi Untuk perusahaan baik Web base maupun Desktop',
+        'status_education' => 'SMK',
+        'age' => '25',
+        'ipk' => '3.00',
         'job_status' => 1
        ]);
 
@@ -33,9 +33,9 @@ class JobSeeder extends Seeder
         'job_type' => 'FullTime',
         'quota' => 2,
         'job_location' => 'Plant 1',
-        'job_deskripsi' => 'Mampu Membuat rancangan atau tampilan desain menggunakan Figma, 
-                            Membuat perencanaan menggunakan diagram ERD, 
-                            Membuat UI UX untuk Aplikasi Untuk perusahaan baik Web base maupun Desktop',
+        'status_education' => 'Sarjana S1',
+        'age' => '28',
+        'ipk' => '3.30',
         'job_status' => 1
        ]);
 
@@ -46,9 +46,9 @@ class JobSeeder extends Seeder
         'job_type' => 'FullTime',
         'quota' => 1,
         'job_location' => 'Plant 1',
-        'job_deskripsi' => 'Membuat konten untuk perusahaan, 
-                            Melakukan photo untuk data karyawan, 
-                            Mampu bekerja dibawah tekanan',
+        'status_education' => 'Sarjana S1',
+        'age' => '23',
+        'ipk' => '3.00',
         'job_status' => 1
        ]);
 
@@ -59,8 +59,9 @@ class JobSeeder extends Seeder
         'job_type' => 'FullTime',
         'quota' => 1,
         'job_location' => 'Plant 2',
-        'job_deskripsi' => 'Membuat desain untuk keperluan perusahaan, 
-                            Melakukan desain umum',
+        'status_education' => 'SMK',
+        'age' => '29',
+        'ipk' => '3.00',
         'job_status' => 1
        ]);
 

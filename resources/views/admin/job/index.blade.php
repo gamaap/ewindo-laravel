@@ -101,7 +101,7 @@
                                 <div class="flex flex-col items-end justify-end gap-y-10">
                                     <label class="inline-flex items-center me-5 cursor-pointer">
                                         <input type="checkbox" value="" class="sr-only peer"
-                                            {{ $isChecked ? 'checked' : '' }}>
+                                            {{ $isChecked ? 'checked' : '' }} disabled>
                                         <div
                                             class="relative w-11 h-6 bg-red-200 rounded-full peer dark:bg-red-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-0.5 after:start-[2px] after:bg-white after:border-red-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-red-600 peer-checked:bg-green-600 dark:peer-checked:bg-green-600">
                                         </div>
@@ -142,33 +142,48 @@
                                     </div>
                                 </div>
                             </div>
+                            <!-- Pastikan ini ada di <head> HTML kamu -->
+                            <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+
                             <div class="mt-4 bg-gray-200 py-4 px-6 flex justify-end items-end rounded-b-lg">
-                                <a href="career-manage.php"
+                                <a href="/admin/job/{{ $job->id }}/show"
                                     class="bg-yellow-500 hover:bg-yellow-600 text-white font-semibold px-4 py-2 rounded-lg shadow-md mr-2">
                                     Kelola Kandidat
                                 </a>
-                                <div class="relative inline-block text-left" data-dropdown>
-                                    <button onclick="toggleDropdown(event, this)"
+
+                                <!-- Dropdown pakai Alpine -->
+                                <div class="relative inline-block text-left" x-data="{ open: false }"
+                                    @click.outside="open = false">
+                                    <button @click="open = !open"
                                         class="bg-white border border-gray-300 hover:bg-gray-100 text-gray-900 font-semibold px-4 py-2 rounded-lg shadow-md flex items-center">
                                         Aksi Lainnya <i class="fa-solid fa-caret-down ml-2"></i>
                                     </button>
 
-                                    <div
-                                        class="hidden absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg">
+                                    <!-- Dropdown Menu -->
+                                    <div x-show="open" x-transition:enter="transition ease-out duration-200"
+                                        x-transition:enter-start="opacity-0 scale-95"
+                                        x-transition:enter-end="opacity-100 scale-100"
+                                        x-transition:leave="transition ease-in duration-100"
+                                        x-transition:leave-start="opacity-100 scale-100"
+                                        x-transition:leave-end="opacity-0 scale-95"
+                                        class="absolute right-0 mt-2 w-40 bg-white border border-gray-300 rounded-lg shadow-lg z-50"
+                                        style="display: none;">
+
                                         <a href="/admin/job/{{ $job->slug }}/edit"
                                             class="block px-4 py-2 text-gray-800 hover:bg-gray-100">Edit</a>
+
                                         <form action="/admin/job/{{ $job->slug }}" method="POST"
                                             onsubmit="return confirm('Are you sure you want to delete this?')">
                                             @method('delete')
                                             @csrf
                                             <button type="submit"
-                                                class="text-md text-red-600 font-semibold hover:underline cursor-pointer">Delete</button>
+                                                class="block w-full text-left px-4 py-2 text-red-600 font-semibold hover:bg-gray-100">
+                                                Delete
+                                            </button>
                                         </form>
-
                                     </div>
                                 </div>
                             </div>
-                        </div>
                     @endforeach
 
 
@@ -178,102 +193,7 @@
         </div>
     </main>
 
-    <script>
-        function toggleDropdown(event, button) {
-            event.stopPropagation();
-            let dropdownMenu = button.nextElementSibling;
-            let isHidden = dropdownMenu.classList.contains("hidden");
-            closeDropdown(); // Tutup semua dropdown terlebih dahulu
-            if (isHidden) {
-                dropdownMenu.classList.remove("hidden");
-            }
-        }
 
-        function closeDropdown() {
-            document.querySelectorAll('[data-dropdown] div').forEach(menu => {
-                menu.classList.add("hidden");
-            });
-        }
-
-        function editAction(event) {
-            event.stopPropagation();
-            alert("Edit action clicked");
-            closeDropdown();
-        }
-
-        function deleteAction(event) {
-            event.stopPropagation();
-            alert("Delete action clicked");
-            closeDropdown();
-        }
-
-        document.addEventListener("click", function() {
-            closeDropdown();
-        });
-    </script>
-
-
-    <!-- PAGINATION -->
-    {{-- <div class="flex items-center justify-between border-t border-gray-200 pt-8 px-4 mt-10 py-3 sm:px-6">
-                    <div class="flex flex-1 justify-between sm:hidden">
-                        <a href="#"
-                            class="relative inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Previous</a>
-                        <a href="#"
-                            class="relative ml-3 inline-flex items-center rounded-md border border-gray-300 bg-white px-4 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50">Next</a>
-                    </div>
-                    <div class="hidden sm:flex sm:flex-1 sm:items-center sm:justify-between">
-                        <div>
-                            <p class="text-sm text-gray-700">
-                                Showing
-                                <span class="font-medium">1</span>
-                                to
-                                <span class="font-medium">10</span>
-                                of
-                                <span class="font-medium">97</span>
-                                results
-                            </p>
-                        </div>
-                        <div>
-                            <nav class="isolate inline-flex -space-x-px rounded-md shadow-xs" aria-label="Pagination">
-                                <a href="#"
-                                    class="relative inline-flex items-center rounded-l-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                                    <span class="sr-only">Previous</span>
-                                    <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                        data-slot="icon">
-                                        <path fill-rule="evenodd"
-                                            d="M11.78 5.22a.75.75 0 0 1 0 1.06L8.06 10l3.72 3.72a.75.75 0 1 1-1.06 1.06l-4.25-4.25a.75.75 0 0 1 0-1.06l4.25-4.25a.75.75 0 0 1 1.06 0Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                                <!-- Current: "z-10 bg-indigo-600 text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600", Default: "text-gray-900 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:outline-offset-0" -->
-                                <a href="#" aria-current="page"
-                                    class="relative z-10 inline-flex items-center bg-indigo-600 px-4 py-2 text-sm font-semibold text-white focus:z-20 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600">1</a>
-                                <a href="#"
-                                    class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0">2</a>
-                                <a href="#"
-                                    class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">3</a>
-                                <span
-                                    class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-700 ring-1 ring-gray-300 ring-inset focus:outline-offset-0">...</span>
-                                <a href="#"
-                                    class="relative hidden items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0 md:inline-flex">8</a>
-                                <a href="#"
-                                    class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0">9</a>
-                                <a href="#"
-                                    class="relative inline-flex items-center px-4 py-2 text-sm font-semibold text-gray-900 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0">10</a>
-                                <a href="#"
-                                    class="relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-gray-300 ring-inset hover:bg-gray-50 focus:z-20 focus:outline-offset-0">
-                                    <span class="sr-only">Next</span>
-                                    <svg class="size-5" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true"
-                                        data-slot="icon">
-                                        <path fill-rule="evenodd"
-                                            d="M8.22 5.22a.75.75 0 0 1 1.06 0l4.25 4.25a.75.75 0 0 1 0 1.06l-4.25 4.25a.75.75 0 0 1-1.06-1.06L11.94 10 8.22 6.28a.75.75 0 0 1 0-1.06Z"
-                                            clip-rule="evenodd" />
-                                    </svg>
-                                </a>
-                            </nav>
-                        </div>
-                    </div>
-                </div> --}}
     </div>
 
     </div>

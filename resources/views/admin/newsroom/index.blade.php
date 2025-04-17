@@ -87,7 +87,7 @@
                                         </a>
                                     </h3>
                                     <p class="my-5 line-clamp-3 text-sm/6 text-gray-600">
-                                        {{ $article->body }}
+                                        {!! Str::limit($article->body, 150) !!}
                                     </p>
                                 </div>
                                 <div class="flex items-center justify-between gap-4 mt-4">

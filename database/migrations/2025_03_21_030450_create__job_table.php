@@ -21,7 +21,10 @@ return new class extends Migration
             $table->string('job_type');
             $table->integer('quota');
             $table->string('job_location');
-            $table->text('job_deskripsi');
+            $table->string('status_education');
+            $table->string('age');
+            $table->string('ipk');
+            // $table->text('job_deskripsi');
             $table->boolean('job_status');
             $table->timestamps();
         });
