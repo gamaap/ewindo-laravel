@@ -30,16 +30,16 @@ Route::get('/careers/{job}/apply', [CareerController::class, 'create']);
 Route::post('/careers', [CareerController::class, 'store']);
 
 Route::get('/products', [ProductController::class, 'index']);
-Route::get('/products/{slug}', [ProductController::class, 'show']);
-Route::post('/products/{slug}', [ProductController::class, 'store']);
-Route::get('/products/{slug}/request-a-quotation', [ProductController::class, 'create']);
+Route::get('/products/{product}', [ProductController::class, 'show']);
+Route::post('/products/{product}', [ProductController::class, 'store']);
+Route::get('/products/{product}/request-a-quotation', [ProductController::class, 'create']);
 
 Route::get('/login', [SessionController::class, 'index'])->name('login');
 Route::post('/login', [SessionController::class, 'store']);
 Route::delete('/logout', [SessionController::class, 'destroy'])->middleware('auth');
 
-Route::get('/register', [RegisteredAdminController::class, 'index']);
-Route::post('/register', [RegisteredAdminController::class, 'store']);
+// Route::get('/register', [RegisteredAdminController::class, 'index']);
+// Route::post('/register', [RegisteredAdminController::class, 'store']);
 
 // admin section
 Route::prefix('admin')->middleware('auth')->group(function() {

@@ -17,11 +17,10 @@ return new class extends Migration
             $table->foreignIdFor(ProductGroup::class);
             $table->string('slug')->unique();
             $table->string('type');
-            $table->string('plug_type')->nullable();
-            $table->string('connector_type')->nullable();
             $table->string('cable_type');
             $table->string('size');
             $table->string('rated_voltage');
+            $table->string('rating_voltage')->nullable();
             $table->string('colour');
             $table->string('application');
             $table->string('product_standard');

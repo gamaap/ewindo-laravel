@@ -6,7 +6,13 @@
         Job Title
       </a>
     </h3>
-    <p class="text-sm text-gray-600 mt-2 leading-relaxed">Job Description</p>
+    <p class="text-sm text-gray-600 mt-2 leading-relaxed">
+      <ul>
+        <li>Semua Jurusan</li>
+        <li>Min. Usia 27 tahun</li>
+        <li>IPK min. 3.00</li>
+      </ul>
+    </p>
   </div>
   
   <div class="mt-auto flex flex-wrap gap-2">

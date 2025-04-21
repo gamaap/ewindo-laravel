@@ -67,9 +67,6 @@
     <div class="col-span-full">
       <x-forms.input label="Type" name="type" />
     </div>
-    <div class="col-span-full hidden" id="plug_type">
-      <x-forms.input label="Plug Type" name="plug_type" />
-    </div>
     <div class="col-span-full hidden" id="connector_type">
       <x-forms.input label="Connector Type" name="connector_type" />
     </div>
@@ -77,7 +74,7 @@
       <x-forms.input label="Cable Type" name="cable_type" />
     </div>
     <div class="col-span-full">
-      <x-forms.input label="Size (AWG/mm2)" name="size" />
+      <x-forms.input label="Size (AWG/mm<sup>2</sup>)" name="size" />
     </div>
     <div class="col-span-full">
       <x-forms.input label="Rated Voltage" name="rated_voltage" />
@@ -104,6 +101,9 @@
     </div>
     <div class="col-span-full">
       <x-forms.input label="Heat Resistance Class" name="heat_resistance" />
+    </div>
+    <div class="col-span-full">
+      <x-forms.input label="Rating Voltage" name="rating_voltage" />
     </div>
     <div class="col-span-full">
       <x-forms.input label="Test" name="test" />
@@ -143,20 +143,6 @@
             }
         });
     });
-  
-    // Handle show hide plug and connector inputs
-    childSelect.addEventListener('change', function() {
-      const selectedValue = this.value;
-  
-      plug.classList.add('hidden');
-      connector.classList.add('hidden');
-  
-      if (selectedValue == 13) {
-        plug.classList.remove('hidden');
-      } else if (selectedValue == 14) {
-        connector.classList.remove('hidden');
-      }
-    })
 
     // Handle image preview upload
     const input = document.getElementById('images');
