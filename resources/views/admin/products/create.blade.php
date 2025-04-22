@@ -126,7 +126,7 @@
     // handle product child groups
     const parentSelect = document.getElementById('product_group_id');
     const childSelect = document.getElementById('category_type');
-  
+
     const plug = document.getElementById('plug_type')
     const connector = document.getElementById('connector_type')
   

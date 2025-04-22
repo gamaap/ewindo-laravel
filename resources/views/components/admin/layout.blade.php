@@ -13,7 +13,7 @@
                             <div class="ml-10 flex items-baseline space-x-4">
                                 <x-admin.nav-link href="/admin" :active="request()->is('admin')">Dashboard</x-admin.nav-link>
                                 <x-admin.nav-link href="/admin/products" :active="request()->is('admin/products*')">Products</x-admin.nav-link>
-                                <x-admin.nav-link href="/admin/press" :active="request()->is('admin/press*')">Press Manager</x-admin.nav-link>
+                                <x-admin.nav-link href="/admin/newsroom" :active="request()->is('admin/newsroom*')">Newsroom</x-admin.nav-link>
                             </div>
                         </div>
                     </div>

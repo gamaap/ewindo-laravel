@@ -53,6 +53,7 @@ Route::prefix('admin')->middleware('auth')->group(function() {
     Route::get('/products/{product}', [ProductController::class, 'show']);
     
     Route::get('/newsroom', [NewsroomController::class, 'index']);
+    Route::post('/newsroom', [NewsroomController::class, 'store']);
     Route::get('/newsroom/create', [NewsroomController::class, 'create']);
     Route::get('/newsroom/{slug}', [NewsroomController::class, 'show']);
 });

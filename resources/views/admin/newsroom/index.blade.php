@@ -1,6 +1,6 @@
 <x-admin.layout>
   <x-slot:heading>
-    Press Manager
+    Newsroom
   </x-slot:heading>
 
   <main>
@@ -8,7 +8,7 @@
       <div class="p-10">
         <!-- ADD BUTTON -->
         <div class="mt-6 flex items-center justify-center gap-x-6">
-          <a href="/admin/press-create.php" class="rounded-md bg-yellow-500 px-3 py-2 text-lg font-semibold text-white shadow-xs hover:bg-yellow-600 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-600">
+          <a href="/admin/newsroom/create" class="rounded-md bg-gold px-3 py-2 text-lg font-semibold text-white shadow-xs hover:bg-yellow-400 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-yellow-400">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2.5" stroke="currentColor" class="inline size-6">
             <path stroke-linecap="round" stroke-linejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
           </svg>

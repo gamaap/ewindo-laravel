@@ -47,6 +47,7 @@ class User extends Authenticatable
             'password' => 'hashed',
         ];
     }
+    
     public function newsrooms(): HasMany
     {
         return $this->hasMany(Newsroom::class);
